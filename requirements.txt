@@ -14,10 +14,17 @@ pytest>=7.0.0
 # The code automatically falls back to CPU if these aren't installed.
 # You DON'T need GPU for the project to work!
 #
-# For NVIDIA GPU with CUDA (if you have one):
+# === APPLE SILICON (M1/M2/M3/M4) - RECOMMENDED ===
+# Option 1: MLX (Apple's ML framework - BEST for Apple Silicon)
+# pip install mlx
+#
+# Option 2: PyTorch with MPS (Metal Performance Shaders)
+# pip install torch torchvision torchaudio
+#
+# === NVIDIA GPUs ===
 # pip install cupy-cuda11x  # For CUDA 11.x
 # pip install cupy-cuda12x  # For CUDA 12.x
 #
-# Numba (alternative GPU option, requires Python <3.14):
+# Numba (requires Python <3.14):
 # pip install numba>=0.56.0
 # ============================================================

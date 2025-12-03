@@ -372,12 +372,13 @@ def print_analysis(results: List[Dict[str, Any]]):
         print(f"  KD-Tree time range: {min(kdtree_times):.2f} to {max(kdtree_times):.2f} ms")
         print(f"  GPU time range: {gpu_times[0]:.2f} to {gpu_times[-1]:.2f} ms")
     
-    # GPU status
-    print(f"\nGPU Status: {'Available' if is_gpu_available() else 'Not available (using CPU fallback)'}")
-    
+    # GPU status (unificado con get_gpu_info)
     gpu_info = get_gpu_info()
+    print(f"\nGPU Status: {'Available' if gpu_info['gpu_available'] else 'Not available (using CPU fallback)'}")
     if gpu_info['device_name']:
         print(f"GPU Device: {gpu_info['device_name']}")
+    if gpu_info.get("backend"):
+        print(f"GPU Backend: {gpu_info['backend']}")
 
 
 def main():
@@ -418,9 +419,13 @@ def main():
         
         gpu_info = get_gpu_info()
         print(f"\nGPU Available: {gpu_info['gpu_available']}")
+        if gpu_info.get("backend"):
+            print(f"GPU Backend: {gpu_info['backend']}")
         if gpu_info['device_name']:
             print(f"GPU Device: {gpu_info['device_name']}")
-            print(f"GPU Memory: {gpu_info['total_memory_gb']:.1f} GB")
+        total_mem = gpu_info.get('total_memory_gb')
+        if total_mem is not None:
+            print(f"GPU Memory: {total_mem:.1f} GB")
     
     # Run benchmarks
     results = run_benchmark_suite(sizes, args.trials, verbose=not args.quiet)

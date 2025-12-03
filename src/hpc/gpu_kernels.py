@@ -11,36 +11,63 @@ computational operations needed for shelf product analysis:
 The module automatically detects GPU availability and falls back
 to optimized CPU implementations when no GPU is present.
 
-Performance Characteristics:
-- GPU excels for large batches (> 5000 points)
-- CPU may be faster for small batches due to transfer overhead
-- Memory usage is O(n × m) for distance matrices
-
-Supported Backends:
-- CuPy (preferred): Full GPU array operations
-- Numba CUDA: Custom kernel support
+Supported Backends (in order of preference):
+- Apple Silicon (MLX): For M1/M2/M3/M4 Macs
+- Apple Silicon (PyTorch MPS): Alternative for Apple GPUs
+- CuPy (CUDA): For NVIDIA GPUs
+- Numba CUDA: Custom kernel support for NVIDIA
 - NumPy (fallback): Vectorized CPU operations
 """
 
 from typing import Tuple, Optional, Dict, Any
 import numpy as np
 
-# Try to import GPU libraries
+# ============================================================
+# GPU Backend Detection
+# ============================================================
+
+_MLX_AVAILABLE = False
+_MPS_AVAILABLE = False
 _CUPY_AVAILABLE = False
 _NUMBA_CUDA_AVAILABLE = False
+_GPU_BACKEND = None
 
+# Try Apple MLX first (best for Apple Silicon)
 try:
-    import cupy as cp
-    _CUPY_AVAILABLE = True
+    import mlx.core as mx
+    _MLX_AVAILABLE = True
+    _GPU_BACKEND = "mlx"
 except ImportError:
-    cp = None
+    mx = None
 
-try:
-    from numba import cuda
-    if cuda.is_available():
-        _NUMBA_CUDA_AVAILABLE = True
-except ImportError:
-    pass
+# Try PyTorch MPS (Apple Metal Performance Shaders)
+if not _MLX_AVAILABLE:
+    try:
+        import torch
+        if torch.backends.mps.is_available():
+            _MPS_AVAILABLE = True
+            _GPU_BACKEND = "mps"
+    except ImportError:
+        torch = None
+
+# Try CuPy (NVIDIA CUDA)
+if not _MLX_AVAILABLE and not _MPS_AVAILABLE:
+    try:
+        import cupy as cp
+        _CUPY_AVAILABLE = True
+        _GPU_BACKEND = "cupy"
+    except ImportError:
+        cp = None
+
+# Try Numba CUDA
+if not _MLX_AVAILABLE and not _MPS_AVAILABLE and not _CUPY_AVAILABLE:
+    try:
+        from numba import cuda
+        if cuda.is_available():
+            _NUMBA_CUDA_AVAILABLE = True
+            _GPU_BACKEND = "numba"
+    except ImportError:
+        pass
 
 
 def is_gpu_available() -> bool:
@@ -48,9 +75,9 @@ def is_gpu_available() -> bool:
     Check if GPU acceleration is available.
     
     Returns:
-        True if CuPy or Numba CUDA is available
+        True if any GPU backend is available (MLX, MPS, CuPy, or Numba CUDA)
     """
-    return _CUPY_AVAILABLE or _NUMBA_CUDA_AVAILABLE
+    return _MLX_AVAILABLE or _MPS_AVAILABLE or _CUPY_AVAILABLE or _NUMBA_CUDA_AVAILABLE
 
 
 def get_gpu_info() -> Dict[str, Any]:
@@ -62,6 +89,9 @@ def get_gpu_info() -> Dict[str, Any]:
     """
     info = {
         'gpu_available': is_gpu_available(),
+        'backend': _GPU_BACKEND,
+        'mlx_available': _MLX_AVAILABLE,
+        'mps_available': _MPS_AVAILABLE,
         'cupy_available': _CUPY_AVAILABLE,
         'numba_cuda_available': _NUMBA_CUDA_AVAILABLE,
         'device_name': None,
@@ -69,10 +99,17 @@ def get_gpu_info() -> Dict[str, Any]:
         'free_memory_gb': None
     }
     
-    if _CUPY_AVAILABLE:
+    if _MLX_AVAILABLE:
+        info['device_name'] = "Apple Silicon (MLX)"
+        # MLX doesn't expose memory info directly
+        
+    elif _MPS_AVAILABLE:
+        info['device_name'] = "Apple Silicon (MPS/Metal)"
+        
+    elif _CUPY_AVAILABLE:
         try:
             device = cp.cuda.Device()
-            info['device_name'] = f"CUDA Device {device.id}"
+            info['device_name'] = f"NVIDIA CUDA Device {device.id}"
             mem = device.mem_info
             info['total_memory_gb'] = mem[1] / 1e9
             info['free_memory_gb'] = mem[0] / 1e9
@@ -82,45 +119,113 @@ def get_gpu_info() -> Dict[str, Any]:
     return info
 
 
-def gpu_distance_matrix(
-    points_a: np.ndarray,
-    points_b: np.ndarray,
-    force_cpu: bool = False
-) -> np.ndarray:
-    """
-    Compute pairwise Euclidean distance matrix using GPU.
-    
-    For points_a of shape (m, d) and points_b of shape (n, d),
-    computes an (m, n) matrix where result[i, j] = ||a_i - b_j||_2.
-    
-    Args:
-        points_a: First point set, shape (m, d)
-        points_b: Second point set, shape (n, d)
-        force_cpu: Force CPU execution even if GPU available
-    
-    Returns:
-        Distance matrix of shape (m, n)
-    
-    Complexity:
-        Time: O(m × n × d / p) on GPU with p cores
-        Space: O(m × n) for result matrix
-    
-    Example:
-        >>> a = np.array([[0, 0], [1, 1]])
-        >>> b = np.array([[0, 0], [2, 2], [3, 3]])
-        >>> dists = gpu_distance_matrix(a, b)
-        >>> print(dists.shape)  # (2, 3)
-    """
-    points_a = np.asarray(points_a, dtype=np.float64)
-    points_b = np.asarray(points_b, dtype=np.float64)
-    
-    if not force_cpu and _CUPY_AVAILABLE:
-        return _distance_matrix_cupy(points_a, points_b)
-    elif not force_cpu and _NUMBA_CUDA_AVAILABLE:
-        return _distance_matrix_numba(points_a, points_b)
-    else:
-        return _distance_matrix_numpy(points_a, points_b)
+# ============================================================
+# MLX Implementation (Apple Silicon - BEST)
+# ============================================================
 
+def _distance_matrix_mlx(
+    points_a: np.ndarray,
+    points_b: np.ndarray
+) -> np.ndarray:
+    """MLX implementation of distance matrix for Apple Silicon."""
+    # Convert to MLX arrays
+    a_mlx = mx.array(points_a)
+    b_mlx = mx.array(points_b)
+    
+    # Compute squared distances using broadcasting
+    # a: (m, d) -> (m, 1, d)
+    # b: (n, d) -> (1, n, d)
+    diff = mx.expand_dims(a_mlx, axis=1) - mx.expand_dims(b_mlx, axis=0)
+    
+    # Sum of squared differences
+    sq_dist = mx.sum(diff ** 2, axis=2)
+    
+    # Euclidean distance
+    dist = mx.sqrt(sq_dist)
+    
+    # Evaluate and convert back to numpy
+    mx.eval(dist)
+    return np.array(dist)
+
+
+def _nearest_neighbors_mlx(
+    planogram_points: np.ndarray,
+    detection_points: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """MLX nearest neighbor search for Apple Silicon."""
+    # Convert to MLX arrays
+    plan_mlx = mx.array(planogram_points)
+    det_mlx = mx.array(detection_points)
+    
+    # Compute distance matrix
+    diff = mx.expand_dims(det_mlx, axis=1) - mx.expand_dims(plan_mlx, axis=0)
+    sq_dist = mx.sum(diff ** 2, axis=2)
+    dist = mx.sqrt(sq_dist)
+    
+    # Find argmin for each detection
+    indices = mx.argmin(dist, axis=1)
+    
+    # Get minimum distances
+    min_dists = mx.min(dist, axis=1)
+    
+    # Evaluate and convert back
+    mx.eval(indices, min_dists)
+    
+    return np.array(indices).astype(np.int32), np.array(min_dists)
+
+
+# ============================================================
+# PyTorch MPS Implementation (Apple Silicon - Alternative)
+# ============================================================
+
+def _distance_matrix_mps(
+    points_a: np.ndarray,
+    points_b: np.ndarray
+) -> np.ndarray:
+    """PyTorch MPS implementation for Apple Silicon."""
+    import torch
+    
+    device = torch.device("mps")
+    
+    # Convert to tensors on MPS
+    a_tensor = torch.from_numpy(points_a).float().to(device)
+    b_tensor = torch.from_numpy(points_b).float().to(device)
+    
+    # Compute distances using broadcasting
+    diff = a_tensor.unsqueeze(1) - b_tensor.unsqueeze(0)
+    sq_dist = torch.sum(diff ** 2, dim=2)
+    dist = torch.sqrt(sq_dist)
+    
+    # Return as numpy
+    return dist.cpu().numpy()
+
+
+def _nearest_neighbors_mps(
+    planogram_points: np.ndarray,
+    detection_points: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """PyTorch MPS nearest neighbor search."""
+    import torch
+    
+    device = torch.device("mps")
+    
+    plan_tensor = torch.from_numpy(planogram_points).float().to(device)
+    det_tensor = torch.from_numpy(detection_points).float().to(device)
+    
+    # Compute distance matrix
+    diff = det_tensor.unsqueeze(1) - plan_tensor.unsqueeze(0)
+    sq_dist = torch.sum(diff ** 2, dim=2)
+    dist = torch.sqrt(sq_dist)
+    
+    # Find nearest
+    min_dists, indices = torch.min(dist, dim=1)
+    
+    return indices.cpu().numpy().astype(np.int32), min_dists.cpu().numpy()
+
+
+# ============================================================
+# CuPy Implementation (NVIDIA CUDA)
+# ============================================================
 
 def _distance_matrix_cupy(
     points_a: np.ndarray,
@@ -130,66 +235,99 @@ def _distance_matrix_cupy(
     a_gpu = cp.asarray(points_a)
     b_gpu = cp.asarray(points_b)
     
-    # Expand dimensions for broadcasting
-    # a: (m, d) -> (m, 1, d)
-    # b: (n, d) -> (1, n, d)
     diff = a_gpu[:, np.newaxis, :] - b_gpu[np.newaxis, :, :]
-    
-    # Sum of squared differences
     sq_dist = cp.sum(diff ** 2, axis=2)
-    
-    # Euclidean distance
     dist = cp.sqrt(sq_dist)
     
     return cp.asnumpy(dist)
 
 
-def _distance_matrix_numba(
-    points_a: np.ndarray,
-    points_b: np.ndarray
-) -> np.ndarray:
-    """Numba CUDA implementation of distance matrix."""
-    from numba import cuda
-    import math
+def _nearest_neighbors_cupy(
+    planogram_points: np.ndarray,
+    detection_points: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """CuPy nearest neighbor search."""
+    plan_gpu = cp.asarray(planogram_points)
+    det_gpu = cp.asarray(detection_points)
     
-    @cuda.jit
-    def dist_kernel(a, b, result):
-        i, j = cuda.grid(2)
-        if i < result.shape[0] and j < result.shape[1]:
-            d = a.shape[1]
-            sq_sum = 0.0
-            for k in range(d):
-                diff = a[i, k] - b[j, k]
-                sq_sum += diff * diff
-            result[i, j] = math.sqrt(sq_sum)
+    diff = det_gpu[:, np.newaxis, :] - plan_gpu[np.newaxis, :, :]
+    sq_dist = cp.sum(diff ** 2, axis=2)
+    dist = cp.sqrt(sq_dist)
     
-    m, d = points_a.shape
-    n = points_b.shape[0]
-    result = np.zeros((m, n), dtype=np.float64)
+    indices = cp.argmin(dist, axis=1)
+    min_dists = cp.min(dist, axis=1)
     
-    # Configure grid
-    threads = (16, 16)
-    blocks = ((m + 15) // 16, (n + 15) // 16)
-    
-    # Execute kernel
-    d_a = cuda.to_device(points_a)
-    d_b = cuda.to_device(points_b)
-    d_result = cuda.to_device(result)
-    
-    dist_kernel[blocks, threads](d_a, d_b, d_result)
-    
-    return d_result.copy_to_host()
+    return cp.asnumpy(indices).astype(np.int32), cp.asnumpy(min_dists)
 
+
+# ============================================================
+# NumPy Implementation (CPU Fallback)
+# ============================================================
 
 def _distance_matrix_numpy(
     points_a: np.ndarray,
     points_b: np.ndarray
 ) -> np.ndarray:
     """NumPy (CPU) implementation of distance matrix."""
-    # Broadcasting approach
     diff = points_a[:, np.newaxis, :] - points_b[np.newaxis, :, :]
     sq_dist = np.sum(diff ** 2, axis=2)
     return np.sqrt(sq_dist)
+
+
+def _nearest_neighbors_numpy(
+    planogram_points: np.ndarray,
+    detection_points: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """NumPy nearest neighbor search (CPU fallback)."""
+    diff = detection_points[:, np.newaxis, :] - planogram_points[np.newaxis, :, :]
+    sq_dist = np.sum(diff ** 2, axis=2)
+    dist = np.sqrt(sq_dist)
+    
+    indices = np.argmin(dist, axis=1).astype(np.int32)
+    min_dists = np.min(dist, axis=1)
+    
+    return indices, min_dists
+
+
+# ============================================================
+# Public API
+# ============================================================
+
+def gpu_distance_matrix(
+    points_a: np.ndarray,
+    points_b: np.ndarray,
+    force_cpu: bool = False
+) -> np.ndarray:
+    """
+    Compute pairwise Euclidean distance matrix using GPU.
+    
+    Automatically selects the best available backend:
+    - Apple Silicon: MLX or MPS
+    - NVIDIA: CuPy or Numba
+    - Fallback: NumPy (CPU)
+    
+    Args:
+        points_a: First point set, shape (m, d)
+        points_b: Second point set, shape (n, d)
+        force_cpu: Force CPU execution even if GPU available
+    
+    Returns:
+        Distance matrix of shape (m, n)
+    """
+    points_a = np.asarray(points_a, dtype=np.float64)
+    points_b = np.asarray(points_b, dtype=np.float64)
+    
+    if force_cpu:
+        return _distance_matrix_numpy(points_a, points_b)
+    
+    if _MLX_AVAILABLE:
+        return _distance_matrix_mlx(points_a, points_b)
+    elif _MPS_AVAILABLE:
+        return _distance_matrix_mps(points_a, points_b)
+    elif _CUPY_AVAILABLE:
+        return _distance_matrix_cupy(points_a, points_b)
+    else:
+        return _distance_matrix_numpy(points_a, points_b)
 
 
 def gpu_nearest_neighbors(
@@ -200,9 +338,6 @@ def gpu_nearest_neighbors(
     """
     GPU-accelerated batch nearest neighbor search.
     
-    For each detection point, find the nearest planogram point.
-    This is the core operation for Voronoi cell assignment.
-    
     Args:
         planogram_points: Shape (n, 2), reference points
         detection_points: Shape (m, 2), query points
@@ -212,34 +347,21 @@ def gpu_nearest_neighbors(
         Tuple of:
         - indices: Shape (m,), index of nearest planogram point
         - distances: Shape (m,), distance to nearest point
-    
-    Complexity:
-        Time: O(m × n / p) for distance + O(m × n) for argmin
-        Space: O(m × n) for distance matrix
-    
-    Example:
-        >>> plan = np.array([[0, 0], [10, 0], [20, 0]])
-        >>> det = np.array([[1, 1], [9, -1]])
-        >>> indices, distances = gpu_nearest_neighbors(plan, det)
-        >>> print(indices)  # [0, 1]
     """
-    # Compute distance matrix
-    dist_matrix = gpu_distance_matrix(
-        detection_points, planogram_points, force_cpu=force_cpu
-    )
+    planogram_points = np.asarray(planogram_points, dtype=np.float64)
+    detection_points = np.asarray(detection_points, dtype=np.float64)
     
-    # Find argmin for each row
-    if not force_cpu and _CUPY_AVAILABLE:
-        dist_gpu = cp.asarray(dist_matrix)
-        indices = cp.argmin(dist_gpu, axis=1)
-        indices = cp.asnumpy(indices).astype(np.int32)
+    if force_cpu:
+        return _nearest_neighbors_numpy(planogram_points, detection_points)
+    
+    if _MLX_AVAILABLE:
+        return _nearest_neighbors_mlx(planogram_points, detection_points)
+    elif _MPS_AVAILABLE:
+        return _nearest_neighbors_mps(planogram_points, detection_points)
+    elif _CUPY_AVAILABLE:
+        return _nearest_neighbors_cupy(planogram_points, detection_points)
     else:
-        indices = np.argmin(dist_matrix, axis=1).astype(np.int32)
-    
-    # Extract minimum distances
-    distances = dist_matrix[np.arange(len(detection_points)), indices]
-    
-    return indices, distances
+        return _nearest_neighbors_numpy(planogram_points, detection_points)
 
 
 def gpu_k_nearest_neighbors(
@@ -250,8 +372,6 @@ def gpu_k_nearest_neighbors(
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     GPU-accelerated k-nearest neighbors search.
-    
-    For each detection point, find the k nearest planogram points.
     
     Args:
         planogram_points: Shape (n, 2), reference points
@@ -272,66 +392,16 @@ def gpu_k_nearest_neighbors(
     n = len(planogram_points)
     k = min(k, n)
     
-    if not force_cpu and _CUPY_AVAILABLE:
-        dist_gpu = cp.asarray(dist_matrix)
-        
-        # Partition to get k smallest
-        indices = cp.argpartition(dist_gpu, k, axis=1)[:, :k]
-        
-        # Get the actual distances for these indices
-        row_idx = cp.arange(m)[:, np.newaxis]
-        top_k_dist = dist_gpu[row_idx, indices]
-        
-        # Sort the top-k by distance
-        sort_idx = cp.argsort(top_k_dist, axis=1)
-        indices = cp.take_along_axis(indices, sort_idx, axis=1)
-        top_k_dist = cp.take_along_axis(top_k_dist, sort_idx, axis=1)
-        
-        indices = cp.asnumpy(indices).astype(np.int32)
-        distances = cp.asnumpy(top_k_dist)
-    else:
-        # NumPy implementation
-        indices = np.argpartition(dist_matrix, k, axis=1)[:, :k]
-        row_idx = np.arange(m)[:, np.newaxis]
-        top_k_dist = dist_matrix[row_idx, indices]
-        
-        sort_idx = np.argsort(top_k_dist, axis=1)
-        indices = np.take_along_axis(indices, sort_idx, axis=1).astype(np.int32)
-        distances = np.take_along_axis(top_k_dist, sort_idx, axis=1)
+    # Use numpy for top-k selection (efficient enough)
+    indices = np.argpartition(dist_matrix, k, axis=1)[:, :k]
+    row_idx = np.arange(m)[:, np.newaxis]
+    top_k_dist = dist_matrix[row_idx, indices]
+    
+    sort_idx = np.argsort(top_k_dist, axis=1)
+    indices = np.take_along_axis(indices, sort_idx, axis=1).astype(np.int32)
+    distances = np.take_along_axis(top_k_dist, sort_idx, axis=1)
     
     return indices, distances
-
-
-def gpu_radius_search(
-    planogram_points: np.ndarray,
-    detection_points: np.ndarray,
-    radius: float,
-    force_cpu: bool = False
-) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    GPU-accelerated radius search.
-    
-    For each detection point, find all planogram points within radius.
-    
-    Args:
-        planogram_points: Shape (n, 2), reference points
-        detection_points: Shape (m, 2), query points
-        radius: Search radius
-        force_cpu: Force CPU execution
-    
-    Returns:
-        Tuple of:
-        - mask: Shape (m, n), boolean mask of points within radius
-        - distances: Shape (m, n), distances (inf for points outside radius)
-    """
-    dist_matrix = gpu_distance_matrix(
-        detection_points, planogram_points, force_cpu=force_cpu
-    )
-    
-    mask = dist_matrix <= radius
-    distances = np.where(mask, dist_matrix, np.inf)
-    
-    return mask, distances
 
 
 def benchmark_gpu_kernel(
@@ -340,19 +410,13 @@ def benchmark_gpu_kernel(
 ) -> Dict[str, Any]:
     """
     Benchmark GPU kernels at various problem sizes.
-    
-    Args:
-        sizes: List of problem sizes to test
-        n_trials: Number of timing trials per size
-    
-    Returns:
-        Dictionary with benchmark results
     """
     import time
     
     results = {
         'sizes': sizes,
         'gpu_available': is_gpu_available(),
+        'backend': _GPU_BACKEND,
         'cpu_times_ms': [],
         'gpu_times_ms': [],
         'speedups': []
@@ -398,11 +462,14 @@ if __name__ == "__main__":
     
     info = get_gpu_info()
     print(f"GPU Available: {info['gpu_available']}")
-    print(f"CuPy: {info['cupy_available']}")
-    print(f"Numba CUDA: {info['numba_cuda_available']}")
+    print(f"Backend: {info['backend']}")
+    print(f"  MLX (Apple Silicon): {info['mlx_available']}")
+    print(f"  MPS (Apple Metal): {info['mps_available']}")
+    print(f"  CuPy (NVIDIA CUDA): {info['cupy_available']}")
+    print(f"  Numba CUDA: {info['numba_cuda_available']}")
+    
     if info['device_name']:
         print(f"Device: {info['device_name']}")
-        print(f"Memory: {info['total_memory_gb']:.1f} GB total")
     
     print("\nRunning benchmark...")
     results = benchmark_gpu_kernel(sizes=[100, 500, 1000, 2000])
