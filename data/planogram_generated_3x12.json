@@ -1,0 +1,371 @@
+{
+  "entries": [
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "sku_id": "SKU_0001",
+      "row": 0,
+      "col": 0,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 10.0,
+      "y": 0.0,
+      "sku_id": "SKU_0002",
+      "row": 0,
+      "col": 1,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 20.0,
+      "y": 0.0,
+      "sku_id": "SKU_0003",
+      "row": 0,
+      "col": 2,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 30.0,
+      "y": 0.0,
+      "sku_id": "SKU_0004",
+      "row": 0,
+      "col": 3,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 40.0,
+      "y": 0.0,
+      "sku_id": "SKU_0005",
+      "row": 0,
+      "col": 4,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 50.0,
+      "y": 0.0,
+      "sku_id": "SKU_0006",
+      "row": 0,
+      "col": 5,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 60.0,
+      "y": 0.0,
+      "sku_id": "SKU_0007",
+      "row": 0,
+      "col": 6,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 70.0,
+      "y": 0.0,
+      "sku_id": "SKU_0008",
+      "row": 0,
+      "col": 7,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 80.0,
+      "y": 0.0,
+      "sku_id": "SKU_0009",
+      "row": 0,
+      "col": 8,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 90.0,
+      "y": 0.0,
+      "sku_id": "SKU_0010",
+      "row": 0,
+      "col": 9,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 100.0,
+      "y": 0.0,
+      "sku_id": "SKU_0011",
+      "row": 0,
+      "col": 10,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 110.0,
+      "y": 0.0,
+      "sku_id": "SKU_0012",
+      "row": 0,
+      "col": 11,
+      "metadata": {
+        "category": "CAT_0"
+      }
+    },
+    {
+      "x": 0.0,
+      "y": -5.0,
+      "sku_id": "SKU_0013",
+      "row": 1,
+      "col": 0,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 10.0,
+      "y": -5.0,
+      "sku_id": "SKU_0014",
+      "row": 1,
+      "col": 1,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 20.0,
+      "y": -5.0,
+      "sku_id": "SKU_0015",
+      "row": 1,
+      "col": 2,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 30.0,
+      "y": -5.0,
+      "sku_id": "SKU_0016",
+      "row": 1,
+      "col": 3,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 40.0,
+      "y": -5.0,
+      "sku_id": "SKU_0017",
+      "row": 1,
+      "col": 4,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 50.0,
+      "y": -5.0,
+      "sku_id": "SKU_0018",
+      "row": 1,
+      "col": 5,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 60.0,
+      "y": -5.0,
+      "sku_id": "SKU_0019",
+      "row": 1,
+      "col": 6,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 70.0,
+      "y": -5.0,
+      "sku_id": "SKU_0020",
+      "row": 1,
+      "col": 7,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 80.0,
+      "y": -5.0,
+      "sku_id": "SKU_0021",
+      "row": 1,
+      "col": 8,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 90.0,
+      "y": -5.0,
+      "sku_id": "SKU_0022",
+      "row": 1,
+      "col": 9,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 100.0,
+      "y": -5.0,
+      "sku_id": "SKU_0023",
+      "row": 1,
+      "col": 10,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 110.0,
+      "y": -5.0,
+      "sku_id": "SKU_0024",
+      "row": 1,
+      "col": 11,
+      "metadata": {
+        "category": "CAT_1"
+      }
+    },
+    {
+      "x": 0.0,
+      "y": -10.0,
+      "sku_id": "SKU_0025",
+      "row": 2,
+      "col": 0,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 10.0,
+      "y": -10.0,
+      "sku_id": "SKU_0026",
+      "row": 2,
+      "col": 1,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 20.0,
+      "y": -10.0,
+      "sku_id": "SKU_0027",
+      "row": 2,
+      "col": 2,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 30.0,
+      "y": -10.0,
+      "sku_id": "SKU_0028",
+      "row": 2,
+      "col": 3,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 40.0,
+      "y": -10.0,
+      "sku_id": "SKU_0029",
+      "row": 2,
+      "col": 4,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 50.0,
+      "y": -10.0,
+      "sku_id": "SKU_0030",
+      "row": 2,
+      "col": 5,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 60.0,
+      "y": -10.0,
+      "sku_id": "SKU_0031",
+      "row": 2,
+      "col": 6,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 70.0,
+      "y": -10.0,
+      "sku_id": "SKU_0032",
+      "row": 2,
+      "col": 7,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 80.0,
+      "y": -10.0,
+      "sku_id": "SKU_0033",
+      "row": 2,
+      "col": 8,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 90.0,
+      "y": -10.0,
+      "sku_id": "SKU_0034",
+      "row": 2,
+      "col": 9,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 100.0,
+      "y": -10.0,
+      "sku_id": "SKU_0035",
+      "row": 2,
+      "col": 10,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    },
+    {
+      "x": 110.0,
+      "y": -10.0,
+      "sku_id": "SKU_0036",
+      "row": 2,
+      "col": 11,
+      "metadata": {
+        "category": "CAT_2"
+      }
+    }
+  ],
+  "num_rows": 3,
+  "num_cols": 12,
+  "spacing_x": 10.0,
+  "spacing_y": 5.0,
+  "metadata": {
+    "pattern": "unique"
+  }
+}

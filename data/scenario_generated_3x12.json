@@ -1,0 +1,660 @@
+{
+  "planogram": {
+    "entries": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "sku_id": "SKU_0001",
+        "row": 0,
+        "col": 0,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 10.0,
+        "y": 0.0,
+        "sku_id": "SKU_0002",
+        "row": 0,
+        "col": 1,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 20.0,
+        "y": 0.0,
+        "sku_id": "SKU_0003",
+        "row": 0,
+        "col": 2,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 30.0,
+        "y": 0.0,
+        "sku_id": "SKU_0004",
+        "row": 0,
+        "col": 3,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 40.0,
+        "y": 0.0,
+        "sku_id": "SKU_0005",
+        "row": 0,
+        "col": 4,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 50.0,
+        "y": 0.0,
+        "sku_id": "SKU_0006",
+        "row": 0,
+        "col": 5,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 60.0,
+        "y": 0.0,
+        "sku_id": "SKU_0007",
+        "row": 0,
+        "col": 6,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 70.0,
+        "y": 0.0,
+        "sku_id": "SKU_0008",
+        "row": 0,
+        "col": 7,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 80.0,
+        "y": 0.0,
+        "sku_id": "SKU_0009",
+        "row": 0,
+        "col": 8,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 90.0,
+        "y": 0.0,
+        "sku_id": "SKU_0010",
+        "row": 0,
+        "col": 9,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 100.0,
+        "y": 0.0,
+        "sku_id": "SKU_0011",
+        "row": 0,
+        "col": 10,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 110.0,
+        "y": 0.0,
+        "sku_id": "SKU_0012",
+        "row": 0,
+        "col": 11,
+        "metadata": {
+          "category": "CAT_0"
+        }
+      },
+      {
+        "x": 0.0,
+        "y": -5.0,
+        "sku_id": "SKU_0013",
+        "row": 1,
+        "col": 0,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 10.0,
+        "y": -5.0,
+        "sku_id": "SKU_0014",
+        "row": 1,
+        "col": 1,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 20.0,
+        "y": -5.0,
+        "sku_id": "SKU_0015",
+        "row": 1,
+        "col": 2,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 30.0,
+        "y": -5.0,
+        "sku_id": "SKU_0016",
+        "row": 1,
+        "col": 3,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 40.0,
+        "y": -5.0,
+        "sku_id": "SKU_0017",
+        "row": 1,
+        "col": 4,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 50.0,
+        "y": -5.0,
+        "sku_id": "SKU_0018",
+        "row": 1,
+        "col": 5,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 60.0,
+        "y": -5.0,
+        "sku_id": "SKU_0019",
+        "row": 1,
+        "col": 6,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 70.0,
+        "y": -5.0,
+        "sku_id": "SKU_0020",
+        "row": 1,
+        "col": 7,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 80.0,
+        "y": -5.0,
+        "sku_id": "SKU_0021",
+        "row": 1,
+        "col": 8,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 90.0,
+        "y": -5.0,
+        "sku_id": "SKU_0022",
+        "row": 1,
+        "col": 9,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 100.0,
+        "y": -5.0,
+        "sku_id": "SKU_0023",
+        "row": 1,
+        "col": 10,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 110.0,
+        "y": -5.0,
+        "sku_id": "SKU_0024",
+        "row": 1,
+        "col": 11,
+        "metadata": {
+          "category": "CAT_1"
+        }
+      },
+      {
+        "x": 0.0,
+        "y": -10.0,
+        "sku_id": "SKU_0025",
+        "row": 2,
+        "col": 0,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 10.0,
+        "y": -10.0,
+        "sku_id": "SKU_0026",
+        "row": 2,
+        "col": 1,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 20.0,
+        "y": -10.0,
+        "sku_id": "SKU_0027",
+        "row": 2,
+        "col": 2,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 30.0,
+        "y": -10.0,
+        "sku_id": "SKU_0028",
+        "row": 2,
+        "col": 3,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 40.0,
+        "y": -10.0,
+        "sku_id": "SKU_0029",
+        "row": 2,
+        "col": 4,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 50.0,
+        "y": -10.0,
+        "sku_id": "SKU_0030",
+        "row": 2,
+        "col": 5,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 60.0,
+        "y": -10.0,
+        "sku_id": "SKU_0031",
+        "row": 2,
+        "col": 6,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 70.0,
+        "y": -10.0,
+        "sku_id": "SKU_0032",
+        "row": 2,
+        "col": 7,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 80.0,
+        "y": -10.0,
+        "sku_id": "SKU_0033",
+        "row": 2,
+        "col": 8,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 90.0,
+        "y": -10.0,
+        "sku_id": "SKU_0034",
+        "row": 2,
+        "col": 9,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 100.0,
+        "y": -10.0,
+        "sku_id": "SKU_0035",
+        "row": 2,
+        "col": 10,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      },
+      {
+        "x": 110.0,
+        "y": -10.0,
+        "sku_id": "SKU_0036",
+        "row": 2,
+        "col": 11,
+        "metadata": {
+          "category": "CAT_2"
+        }
+      }
+    ],
+    "num_rows": 3,
+    "num_cols": 12,
+    "spacing_x": 10.0,
+    "spacing_y": 5.0,
+    "metadata": {
+      "pattern": "unique"
+    }
+  },
+  "detections": {
+    "entries": [
+      {
+        "x": -0.5115886817455927,
+        "y": -0.2588978920329552,
+        "sku_id": "SKU_0001",
+        "confidence": 0.9185017111521294,
+        "bbox": null
+      },
+      {
+        "x": 9.76941315975073,
+        "y": 0.21835881639245483,
+        "sku_id": "SKU_0002",
+        "confidence": 0.937668787420099,
+        "bbox": null
+      },
+      {
+        "x": 19.914882470666296,
+        "y": 0.2341965966012209,
+        "sku_id": "SKU_0003",
+        "confidence": 0.900049200473905,
+        "bbox": null
+      },
+      {
+        "x": 30.270430571611442,
+        "y": -0.5278224982034477,
+        "sku_id": "SKU_0004",
+        "confidence": 0.9223672971873697,
+        "bbox": null
+      },
+      {
+        "x": 39.931129792120004,
+        "y": 0.17746107928561372,
+        "sku_id": "FOREIGN_9896",
+        "confidence": 0.9040656530438074,
+        "bbox": null
+      },
+      {
+        "x": 49.55682111471181,
+        "y": -0.3643013960946754,
+        "sku_id": "SKU_0006",
+        "confidence": 0.9623371453842351,
+        "bbox": null
+      },
+      {
+        "x": 60.250075264677065,
+        "y": -0.6499829903978324,
+        "sku_id": "SKU_0007",
+        "confidence": 0.9220618009984995,
+        "bbox": null
+      },
+      {
+        "x": 69.69335094927402,
+        "y": -0.20760778485197193,
+        "sku_id": "SKU_0008",
+        "confidence": 0.8776368631928314,
+        "bbox": null
+      },
+      {
+        "x": 80.70591013028572,
+        "y": 0.5235075541312071,
+        "sku_id": "SKU_0009",
+        "confidence": 0.889784951723747,
+        "bbox": null
+      },
+      {
+        "x": 89.30030265512488,
+        "y": -1.3892599243336528,
+        "sku_id": "SKU_0010",
+        "confidence": 0.8846373383045837,
+        "bbox": null
+      },
+      {
+        "x": 99.9660536143421,
+        "y": 0.8037875502064488,
+        "sku_id": "SKU_0011",
+        "confidence": 0.8648038169424406,
+        "bbox": null
+      },
+      {
+        "x": 109.43877674757795,
+        "y": -0.0643178075191212,
+        "sku_id": "SKU_0012",
+        "confidence": 0.9651587306873,
+        "bbox": null
+      },
+      {
+        "x": 0.6372022363815419,
+        "y": -5.329633490485757,
+        "sku_id": "SKU_0013",
+        "confidence": 0.9158880208397088,
+        "bbox": null
+      },
+      {
+        "x": 10.10533124898881,
+        "y": -4.701437356619814,
+        "sku_id": "SKU_0014",
+        "confidence": 0.9836400474435656,
+        "bbox": null
+      },
+      {
+        "x": 21.292334732146724,
+        "y": -4.5649730680647185,
+        "sku_id": "FOREIGN_9026",
+        "confidence": 0.9773287568841125,
+        "bbox": null
+      },
+      {
+        "x": 30.012329601439298,
+        "y": -5.489438190179032,
+        "sku_id": "SKU_0016",
+        "confidence": 0.9173124338177332,
+        "bbox": null
+      },
+      {
+        "x": 45.70280028344027,
+        "y": -5.19202864175158,
+        "sku_id": "SKU_0017",
+        "confidence": 0.9088917577979542,
+        "bbox": null
+      },
+      {
+        "x": 49.18676786674542,
+        "y": -5.129218029815335,
+        "sku_id": "SKU_0018",
+        "confidence": 0.8609768609245481,
+        "bbox": null
+      },
+      {
+        "x": 60.07954670640116,
+        "y": -4.3218023441261755,
+        "sku_id": "SKU_0019",
+        "confidence": 0.8860288299399618,
+        "bbox": null
+      },
+      {
+        "x": 70.18488947450088,
+        "y": -4.97969546305338,
+        "sku_id": "SKU_0020",
+        "confidence": 0.8548050172525608,
+        "bbox": null
+      },
+      {
+        "x": 81.14159134294897,
+        "y": -4.728075408342779,
+        "sku_id": "SKU_0021",
+        "confidence": 0.9441491548067047,
+        "bbox": null
+      },
+      {
+        "x": 90.7030884079063,
+        "y": -4.72298906846278,
+        "sku_id": "SKU_0022",
+        "confidence": 0.9408278682868167,
+        "bbox": null
+      },
+      {
+        "x": 100.35505077088563,
+        "y": -3.8623678761506945,
+        "sku_id": "SKU_0023",
+        "confidence": 0.9738019599426257,
+        "bbox": null
+      },
+      {
+        "x": 110.17902011716464,
+        "y": -5.264301913605401,
+        "sku_id": "SKU_0024",
+        "confidence": 0.8879418542252476,
+        "bbox": null
+      },
+      {
+        "x": -0.7768622187730202,
+        "y": -10.253568723462658,
+        "sku_id": "SKU_0025",
+        "confidence": 0.9503326094859872,
+        "bbox": null
+      },
+      {
+        "x": 9.039979444941087,
+        "y": -10.006927425225754,
+        "sku_id": "SKU_0026",
+        "confidence": 0.9328062797261234,
+        "bbox": null
+      },
+      {
+        "x": 19.221632951910582,
+        "y": -10.34170939437109,
+        "sku_id": "SKU_0027",
+        "confidence": 0.9870681810677414,
+        "bbox": null
+      },
+      {
+        "x": 29.15466658201887,
+        "y": -11.039865160832385,
+        "sku_id": "SKU_0028",
+        "confidence": 0.9841414580040877,
+        "bbox": null
+      },
+      {
+        "x": 39.29042575209437,
+        "y": -9.97280012326328,
+        "sku_id": "SKU_0029",
+        "confidence": 0.9023685914568786,
+        "bbox": null
+      },
+      {
+        "x": 58.378411809549675,
+        "y": -13.615473418055984,
+        "sku_id": "SKU_0030",
+        "confidence": 0.9730300794716088,
+        "bbox": null
+      },
+      {
+        "x": 60.847860491110325,
+        "y": -9.917807345095534,
+        "sku_id": "SKU_0031",
+        "confidence": 0.9606932430831898,
+        "bbox": null
+      },
+      {
+        "x": 74.01237839461322,
+        "y": -13.604009232837214,
+        "sku_id": "SKU_0032",
+        "confidence": 0.9187527291899356,
+        "bbox": null
+      },
+      {
+        "x": 80.19881327273553,
+        "y": -10.12324882838164,
+        "sku_id": "SKU_0033",
+        "confidence": 0.9277872639250264,
+        "bbox": null
+      },
+      {
+        "x": 91.96129320698459,
+        "y": -7.430568621151113,
+        "sku_id": "SKU_0034",
+        "confidence": 0.8794732337019383,
+        "bbox": null
+      },
+      {
+        "x": 100.98765954607403,
+        "y": -8.99483444785498,
+        "sku_id": "SKU_0035",
+        "confidence": 0.9563268893529574,
+        "bbox": null
+      },
+      {
+        "x": 110.11007714203201,
+        "y": -9.891264628273317,
+        "sku_id": "SKU_0036",
+        "confidence": 0.9278760719800763,
+        "bbox": null
+      }
+    ],
+    "image_id": "synthetic_8899",
+    "timestamp": null,
+    "metadata": {
+      "noise_std": 0.6,
+      "anomaly_rate": 0.15
+    }
+  },
+  "ground_truth": {
+    "anomaly_indices": [
+      4,
+      14,
+      16,
+      29,
+      31,
+      33
+    ],
+    "anomaly_types": [
+      "foreign",
+      "foreign",
+      "misplaced",
+      "misplaced",
+      "misplaced",
+      "misplaced"
+    ],
+    "missing_indices": [],
+    "swapped_pairs": [],
+    "foreign_skus": [
+      "FOREIGN_9896",
+      "FOREIGN_9026"
+    ]
+  },
+  "scenario_id": "generated_3x12"
+}
