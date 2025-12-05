@@ -2,6 +2,46 @@
 
 **GPU-Accelerated Spatial Search for Retail Planogram Compliance Verification**
 
+# Team Contributions
+
+### **Icker Villalón Lozoya — A01613306**  
+**Role:** Lead Algorithm Designer & GPU Acceleration Engineer  
+**Main Contributions:**  
+- Designed the core Voronoi-based assignment strategy and formalized the equivalence with nearest-neighbor search.  
+- Implemented GPU-accelerated distance computation kernels using CuPy/MLX, including the optimized squared-distance matrix formulation (`||A − B||² = ||A||²1ᵀ + 1||B||²ᵀ − 2ABᵀ`).  
+- Optimized the CPU↔GPU pipeline, performed speedup analysis, and led benchmarking on Apple Silicon and NVIDIA GPUs.  
+- Contributed to system architecture, experimental methodology, and final performance evaluation.
+
+---
+
+### **Alejandro Vallejo Elizondo — A00836053**  
+**Role:** KD-Tree & Computational Geometry Engineer  
+**Main Contributions:**  
+- Built the custom 2D KD-tree from scratch, including balanced construction, nearest-neighbor search, k-NN, and radius queries.  
+- Developed CPU-based Voronoi assignment logic and integrated geometric operations into the main pipeline.  
+- Ensured algorithmic correctness through extensive unit testing (`test_kd_tree.py` and related geometry tests).  
+- Contributed to complexity analysis and theoretical justification of computational geometry components.
+
+---
+
+### **Sergio Alejandro Covarrubias Cázares — A00227707**  
+**Role:** Synthetic Data & Anomaly Detection Lead  
+**Main Contributions:**  
+- Designed and implemented the synthetic planogram and detection generator, including Gaussian noise injection, anomaly synthesis, and reproducible scenario generation.  
+- Developed the anomaly-detection module for identifying missing, misplaced, duplicated, swapped, and foreign SKUs.  
+- Created the structured JSON scenario files and the full data pipeline used for benchmarking.  
+- Validated detection accuracy (precision, recall, F1-score) using controlled ground-truth datasets.
+
+---
+
+### **Javier Yahir Juárez Arroyo — A00838452**  
+**Role:** System Integration, Benchmarking & Documentation  
+**Main Contributions:**  
+- Integrated all system components into a cohesive pipeline (`synthetic → KD/GPU assignment → anomaly detector`).  
+- Built the benchmarking suite for CPU vs KD-tree vs GPU comparisons across small, medium, and large scenarios.  
+- Authored the README structure, diagrams, system architecture section, and experimental tables.  
+- Implemented the CLI interface, usage instructions, and ensured reproducibility across environments.
+
 ## Abstract
 
 This repository implements a high-performance system for automatically validating the correct placement of products (SKUs) on retail shelves by comparing real-world detections against expected planogram layouts. The system leverages computational geometry (Voronoi diagrams), advanced spatial search structures (KD-trees), and GPU-accelerated parallel computing to achieve significant speedups over naive sequential approaches.
